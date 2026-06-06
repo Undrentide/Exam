@@ -42,7 +42,7 @@ public class HomePage extends HomePageBase {
     @FindBy(xpath = "//div[@class='dp__calendar_item'][@aria-pressed='true']/following-sibling::div")
     private ExtendedWebElement datePickerElement;
 
-    @FindBy(xpath = "//button[contains(text(), 'Знайти')]")
+    @FindBy(xpath = "//button[@type='submit']")
     private ExtendedWebElement findButton;
 
     @FindBy(xpath = "//section[@id='serviceOrders']")
@@ -65,6 +65,14 @@ public class HomePage extends HomePageBase {
 
     @FindBy(xpath = CARD_ELEMENT_XPATH + "/img")
     private ExtendedWebElement cardIconS;
+
+    private static final String LANG = "lang";
+
+    @FindBy(xpath = "/html")
+    private ExtendedWebElement htmlTag;
+
+    @FindBy(xpath = "//div[@class='LanguageSwitcher']//button")
+    private ExtendedWebElement localizationButton;
 
     public HomePage(WebDriver webDriver) {
         super(webDriver);
@@ -143,5 +151,18 @@ public class HomePage extends HomePageBase {
     @Override
     public String getOrderingServicesRedirectUrl(HomeOrderingServiceCard card) {
         return cardS.format(card.getTitle()).getAttribute(HREF);
+    }
+
+    @Override
+    public void switchLanguage(String targetLangCode) {
+        if (htmlTag.getAttribute(LANG) != null && !htmlTag.getAttribute(LANG).toLowerCase()
+                .contains(targetLangCode.toLowerCase())) {
+            localizationButton.click();
+        }
+    }
+
+    @Override
+    public String getSearchButtonText() {
+        return findButton.getText();
     }
 }

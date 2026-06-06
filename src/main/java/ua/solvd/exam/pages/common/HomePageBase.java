@@ -31,4 +31,8 @@ public abstract class HomePageBase extends ParentPageBase {
     public abstract String getOrderingServicesIconUrl(HomeOrderingServiceCard card);
 
     public abstract String getOrderingServicesRedirectUrl(HomeOrderingServiceCard card);
+
+    public abstract void switchLanguage(String lang);
+
+    public abstract String getSearchButtonText();
 }
