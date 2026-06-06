@@ -8,37 +8,98 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <carina-version>1.1.3</carina-version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <carina-core_version>1.3.0</carina-core_version>
+        <carina-api_version>1.2.4</carina-api_version>
+        <carina-dataprovider_version>1.2.4</carina-dataprovider_version>
+        <zebrunner-agent.version>1.10.0</zebrunner-agent.version>
+        <java.version>17</java.version>
+        <suite>debug</suite>
+        <zxing.version>3.5.3</zxing.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>2.19.2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
             <groupId>com.zebrunner</groupId>
             <artifactId>carina-core</artifactId>
-            <version>${carina-version}</version>
+            <version>${carina-core_version}</version>
         </dependency>
         <dependency>
             <groupId>com.zebrunner</groupId>
             <artifactId>carina-api</artifactId>
-            <version>${carina-version}</version>
+            <version>${carina-api_version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.codehaus.groovy</groupId>
+                    <artifactId>groovy</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.zebrunner</groupId>
-            <artifactId>carina-webdriver</artifactId>
-            <version>1.1.5</version>
+            <artifactId>carina-dataprovider</artifactId>
+            <version>${carina-dataprovider_version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.testng</groupId>
+                    <artifactId>testng</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.zebrunner</groupId>
+            <artifactId>agent-testng-pluggable</artifactId>
+            <version>1.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zebrunner</groupId>
+            <artifactId>agent-core</artifactId>
+            <version>1.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.38</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <!-- 3.14.0 is not stable -->
+                <version>3.13.0</version>
                 <configuration>
-                    <release>21</release>
+                    <release>${java.version}</release>
+                    <failOnWarning>false</failOnWarning>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.38</version>
+                        </path>
+                    </annotationProcessorPaths>
                     <compilerArgs>
                         <arg>-parameters</arg>
                     </compilerArgs>
@@ -47,7 +108,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.8.1</version>
                 <executions>
                     <execution>
                         <id>copy</id>
@@ -55,27 +116,32 @@
                         <goals>
                             <goal>copy</goal>
                         </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>com.zebrunner</groupId>
-                                    <artifactId>agent-core</artifactId>
-                                    <version>1.9.6</version>
-                                    <outputDirectory>${project.build.directory}/agent</outputDirectory>
-                                    <destFileName>zebrunner-agent.jar</destFileName>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <artifactItems>
+                        <artifactItem>
+                            <groupId>com.zebrunner</groupId>
+                            <artifactId>agent-core</artifactId>
+                            <version>${zebrunner-agent.version}</version>
+                            <outputDirectory>${project.build.directory}/agent</outputDirectory>
+                            <destFileName>zebrunner-agent.jar</destFileName>
+                        </artifactItem>
+                    </artifactItems>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.5.3</version>
                 <configuration>
-                    <argLine>-javaagent:${project.build.directory}/agent/zebrunner-agent.jar</argLine>
+                    <argLine>
+                        -javaagent:${project.build.directory}/agent/zebrunner-agent.jar
+                    </argLine>
                     <useSystemClassLoader>false</useSystemClassLoader>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>${project.build.directory}/test-classes/testng_suites/${suite}.xml</suiteXmlFile>
+                    </suiteXmlFiles>
                 </configuration>
             </plugin>
         </plugins>

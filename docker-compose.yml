@@ -4,7 +4,7 @@ name: SolvdExam
 
 services:
   u-selenium:
-    image: selenium/standalone-firefox:latest
+    image: selenium/standalone-chrome:latest
     ports:
       - "4444:4444"
       - "7900:7900"
