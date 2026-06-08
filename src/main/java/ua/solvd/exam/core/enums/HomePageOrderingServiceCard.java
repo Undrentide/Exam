@@ -1,4 +1,4 @@
-package ua.solvd.exam.enums;
+package ua.solvd.exam.core.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @RequiredArgsConstructor
-public enum HomeOrderingServiceCard {
+public enum HomePageOrderingServiceCard {
     MILITARY_TICKETS("Квитки для військових",
             "Оформлення квитків для військових, коли вільних місць у потягу не знайшлося.",
             "https://app.uz.gov.ua/storage/services/Wg8WFpIGKN.svg",
@@ -44,7 +44,10 @@ public enum HomeOrderingServiceCard {
             "Все про рівень доступності вокзалів України та наявні елементи безбар'єрності.",
             "https://app.uz.gov.ua/storage/services/lHbjzjfMg7.svg",
             "https://misto.lun.ua/uz"),
-    CHILD_TICKETS("", "", "", "");
+    CHILD_TICKETS("Квитки на Дитячу Залізницю",
+            "Захоплива подорож містом для всієї родини.",
+            "https://app.uz.gov.ua/storage/services/MU3GJXELRD.svg",
+            "https://booking.uz.gov.ua/kids");
 
     private final String title;
     private final String description;

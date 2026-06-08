@@ -8,17 +8,19 @@ import ua.solvd.exam.pages.common.TripDetailsPageBase;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+import static ua.solvd.exam.core.enums.HomePageStations.KYIV_PASSENGER;
+import static ua.solvd.exam.core.enums.HomePageStations.LVIV;
 
 public class TripsNavigationTest extends BaseTripsTest {
 
     @Test
-    @MethodOwner(owner = OWNER)
+    @MethodOwner(owner = ICHELOMBITKO)
     public void tripDetailsE2ENavigationTest() {
         HomePageBase homePage = initPage(HomePageBase.class);
         homePage.open();
         assertTrue(homePage.isPageOpened(), "Home page was not opened :C");
-        homePage.fillStationDepartureInput(KYIV_PASSENGER);
-        homePage.fillStationDestinationInput(LVIV);
+        homePage.fillStationDepartureInput(KYIV_PASSENGER.getName());
+        homePage.fillStationDestinationInput(LVIV.getName());
         homePage.clickDatePicker();
         homePage.selectDatePickerElement();
         SearchTripsPageBase searchTripsPage = homePage.clickFindButton();

@@ -4,7 +4,7 @@ import com.zebrunner.carina.core.registrar.ownership.MethodOwner;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import ua.solvd.exam.enums.HomeOrderingServiceCard;
+import ua.solvd.exam.core.enums.HomePageOrderingServiceCard;
 import ua.solvd.exam.pages.common.HomePageBase;
 
 import java.util.Arrays;
@@ -16,15 +16,15 @@ public class HomeOrderingServicesTest extends BaseHomeOrderingServiceTest {
 
     @DataProvider(name = "provideOrderingServiceCardContent")
     public Iterator<Object[]> provideOrderingServiceCardContent() {
-        return Arrays.stream(HomeOrderingServiceCard.values())
+        return Arrays.stream(HomePageOrderingServiceCard.values())
                 .filter(card -> !card.getTitle().isEmpty())
                 .map(card -> new Object[]{card})
                 .iterator();
     }
 
     @Test(dataProvider = "provideOrderingServiceCardContent")
-    @MethodOwner(owner = OWNER)
-    public void testOrderingServicesContent(HomeOrderingServiceCard card) {
+    @MethodOwner(owner = ICHELOMBITKO)
+    public void testOrderingServicesContent(HomePageOrderingServiceCard card) {
         HomePageBase homePageBase = initPage(HomePageBase.class);
         homePageBase.open();
         assertTrue(homePageBase.isPageOpened(), "Home page was not opened :C");

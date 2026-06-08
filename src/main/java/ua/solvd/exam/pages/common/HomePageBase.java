@@ -1,7 +1,7 @@
 package ua.solvd.exam.pages.common;
 
 import org.openqa.selenium.WebDriver;
-import ua.solvd.exam.enums.HomeOrderingServiceCard;
+import ua.solvd.exam.core.enums.HomePageOrderingServiceCard;
 import ua.solvd.exam.pages.ParentPageBase;
 
 public abstract class HomePageBase extends ParentPageBase {
@@ -24,13 +24,13 @@ public abstract class HomePageBase extends ParentPageBase {
 
     public abstract void scrollToOrderingServicesSection();
 
-    public abstract String getOrderingServicesTitle(HomeOrderingServiceCard card);
+    public abstract String getOrderingServicesTitle(HomePageOrderingServiceCard card);
 
-    public abstract String getOrderingServicesDescription(HomeOrderingServiceCard card);
+    public abstract String getOrderingServicesDescription(HomePageOrderingServiceCard card);
 
-    public abstract String getOrderingServicesIconUrl(HomeOrderingServiceCard card);
+    public abstract String getOrderingServicesIconUrl(HomePageOrderingServiceCard card);
 
-    public abstract String getOrderingServicesRedirectUrl(HomeOrderingServiceCard card);
+    public abstract String getOrderingServicesRedirectUrl(HomePageOrderingServiceCard card);
 
     public abstract void switchLanguage(String lang);
 

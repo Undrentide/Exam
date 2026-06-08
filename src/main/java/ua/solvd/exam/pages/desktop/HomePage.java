@@ -4,7 +4,7 @@ import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import ua.solvd.exam.enums.HomeOrderingServiceCard;
+import ua.solvd.exam.core.enums.HomePageOrderingServiceCard;
 import ua.solvd.exam.pages.common.HomePageBase;
 import ua.solvd.exam.pages.common.SchedulePageBase;
 import ua.solvd.exam.pages.common.SearchTripsPageBase;
@@ -42,13 +42,11 @@ public class HomePage extends HomePageBase {
     @FindBy(xpath = "//div[@class='dp__calendar_item'][@aria-pressed='true']/following-sibling::div")
     private ExtendedWebElement datePickerElement;
 
-    @FindBy(xpath = "//button[@type='submit']")
+    @FindBy(xpath = "//form[@id='tripsForm']//button[@type='submit']")
     private ExtendedWebElement findButton;
 
     @FindBy(xpath = "//section[@id='serviceOrders']")
     private ExtendedWebElement orderingServiceSection;
-
-    private static final String SRC = "src";
 
     private static final String CARD_ELEMENT_XPATH = "//a[contains(@class, 'HomeServicesCard')][.//h2[text()='%s']]";
 
@@ -61,12 +59,8 @@ public class HomePage extends HomePageBase {
     @FindBy(xpath = CARD_ELEMENT_XPATH + "/p")
     private ExtendedWebElement cardDescriptionS;
 
-    private static final String HREF = "href";
-
     @FindBy(xpath = CARD_ELEMENT_XPATH + "/img")
     private ExtendedWebElement cardIconS;
-
-    private static final String LANG = "lang";
 
     @FindBy(xpath = "/html")
     private ExtendedWebElement htmlTag;
@@ -80,7 +74,7 @@ public class HomePage extends HomePageBase {
 
     @Override
     public boolean isPageOpened() {
-        return isPageOpened(10);
+        return isPageOpened(IS_OPENED_DEFAULT_TIMEOUT);
     }
 
     @Override
@@ -134,22 +128,22 @@ public class HomePage extends HomePageBase {
     }
 
     @Override
-    public String getOrderingServicesTitle(HomeOrderingServiceCard card) {
+    public String getOrderingServicesTitle(HomePageOrderingServiceCard card) {
         return cardTitleS.format(card.getTitle()).getText();
     }
 
     @Override
-    public String getOrderingServicesDescription(HomeOrderingServiceCard card) {
+    public String getOrderingServicesDescription(HomePageOrderingServiceCard card) {
         return cardDescriptionS.format(card.getTitle()).getText();
     }
 
     @Override
-    public String getOrderingServicesIconUrl(HomeOrderingServiceCard card) {
+    public String getOrderingServicesIconUrl(HomePageOrderingServiceCard card) {
         return cardIconS.format(card.getTitle()).getAttribute(SRC);
     }
 
     @Override
-    public String getOrderingServicesRedirectUrl(HomeOrderingServiceCard card) {
+    public String getOrderingServicesRedirectUrl(HomePageOrderingServiceCard card) {
         return cardS.format(card.getTitle()).getAttribute(HREF);
     }
 
